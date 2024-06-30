@@ -6,18 +6,17 @@ import java.time.LocalDateTime;
 
 public class PaymentService {
 
-    private final WebApiExRateProvider webApiExRateProvider;
+    private final ExRateProvider exRateProvider;
 
-    public PaymentService() {
-        this.webApiExRateProvider =  new WebApiExRateProvider();
+    public PaymentService(ExRateProvider exRateProvider) {
+        this.exRateProvider = exRateProvider;
     }
 
     public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) throws IOException {
 
         // 환율 가져오기
         // https://open.er-api.com/v6/latest/USD
-        WebApiExRateProvider webApiExRateProvider = new WebApiExRateProvider();
-        BigDecimal exRate = webApiExRateProvider.getWebExRate(currency);
+        BigDecimal exRate = exRateProvider.getExRate(currency);
 
         // 금액 계산
         BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
