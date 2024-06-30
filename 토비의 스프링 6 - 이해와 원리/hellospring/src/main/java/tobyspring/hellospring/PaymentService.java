@@ -4,13 +4,20 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-abstract public class PaymentService {
+public class PaymentService {
+
+    private final WebApiExRateProvider webApiExRateProvider;
+
+    public PaymentService() {
+        this.webApiExRateProvider =  new WebApiExRateProvider();
+    }
 
     public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) throws IOException {
 
         // 환율 가져오기
         // https://open.er-api.com/v6/latest/USD
-        BigDecimal exRate = getExRate(currency);
+        WebApiExRateProvider webApiExRateProvider = new WebApiExRateProvider();
+        BigDecimal exRate = webApiExRateProvider.getWebExRate(currency);
 
         // 금액 계산
         BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
@@ -20,7 +27,5 @@ abstract public class PaymentService {
 
         return new Payment(orderId, currency, foreignCurrencyAmount, exRate, convertedAmount, validUntil);
     }
-
-    abstract BigDecimal getExRate(String currency) throws IOException;
 
 }
