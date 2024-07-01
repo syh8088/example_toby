@@ -11,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.stream.Collectors;
 
-@Component
+//@Component
 public class WebApiExRateProvider implements ExRateProvider {
 
     @Override
@@ -32,6 +32,8 @@ public class WebApiExRateProvider implements ExRateProvider {
 
         // mapper 의 정보를 가져온다. java Object 로 변환
         ExRateData data = mapper.readValue(response, ExRateData.class);
+
+        System.out.println("API ExRate: " + data.rates().get("KRW"));
 
         return data.rates().get("KRW");
     }
