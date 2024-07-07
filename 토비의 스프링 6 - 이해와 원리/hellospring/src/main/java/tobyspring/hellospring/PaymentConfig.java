@@ -2,20 +2,19 @@ package tobyspring.hellospring;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tobyspring.hellospring.exrate.WebApiExRateProvider;
 import tobyspring.hellospring.payment.ExRateProvider;
-import tobyspring.hellospring.payment.ExRateProviderStub;
+import tobyspring.hellospring.exrate.WebApiExRateProvider;
 import tobyspring.hellospring.payment.PaymentService;
 
-import static java.math.BigDecimal.valueOf;
+import java.time.Clock;
 
 @Configuration
 //@ComponentScan
-public class TestObjectFactory {
+public class PaymentConfig {
 
     @Bean
     public PaymentService paymentService() {
-        return new PaymentService(this.exRateProvider());
+        return new PaymentService(this.exRateProvider(), this.clock());
     }
 
 //    @Bean
@@ -25,6 +24,11 @@ public class TestObjectFactory {
 
     @Bean
     public ExRateProvider exRateProvider() {
-        return new ExRateProviderStub(valueOf(1_000));
+        return new WebApiExRateProvider();
+    }
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemDefaultZone();
     }
 }
