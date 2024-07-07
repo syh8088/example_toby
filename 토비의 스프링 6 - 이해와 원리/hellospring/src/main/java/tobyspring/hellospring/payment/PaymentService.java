@@ -22,13 +22,13 @@ public class PaymentService {
         // https://open.er-api.com/v6/latest/USD
         BigDecimal exRate = exRateProvider.getExRate(currency);
 
-        // 금액 계산
-        BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
-
-        // 유효시간 계산
-        LocalDateTime validUntil = LocalDateTime.now(this.clock).plusMinutes(30);
-
-        return new Payment(orderId, currency, foreignCurrencyAmount, exRate, convertedAmount, validUntil);
+        return Payment.createPrepared(
+                orderId,
+                currency,
+                foreignCurrencyAmount,
+                exRate,
+                LocalDateTime.now(this.clock)
+        );
     }
 
 }
