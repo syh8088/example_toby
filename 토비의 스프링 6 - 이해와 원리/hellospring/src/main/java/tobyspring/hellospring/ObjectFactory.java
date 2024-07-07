@@ -13,13 +13,13 @@ public class ObjectFactory {
 
     @Bean
     public PaymentService paymentService() {
-        return new PaymentService(this.cashedExRateProvider());
+        return new PaymentService(this.exRateProvider());
     }
 
-    @Bean
-    public ExRateProvider cashedExRateProvider() {
-        return new CashedExRateProvider(exRateProvider());
-    }
+//    @Bean
+//    public ExRateProvider cashedExRateProvider() {
+//        return new CashedExRateProvider(exRateProvider());
+//    }
 
     @Bean
     public ExRateProvider exRateProvider() {
