@@ -3,6 +3,8 @@ package tobyspring.hellospring.exrate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import tobyspring.hellospring.api.ApiExecutor;
+import tobyspring.hellospring.api.ErApiExRateExtractor;
+import tobyspring.hellospring.api.ExRateExtractor;
 import tobyspring.hellospring.api.SimpleApiExecute;
 import tobyspring.hellospring.payment.ExRateProvider;
 
@@ -23,10 +25,10 @@ public class WebApiExRateProvider implements ExRateProvider {
 
         String url = "https://open.er-api.com/v6/latest/" + currency;
 
-        return runApiForExRate(url, new SimpleApiExecute());
+        return runApiForExRate(url, new SimpleApiExecute(), new ErApiExRateExtractor());
     }
 
-    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor) {
+    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
         URI uri;
         try {
             uri = new URI(url);
@@ -43,18 +45,10 @@ public class WebApiExRateProvider implements ExRateProvider {
 
         // mapper 의 정보를 가져온다. java Object 로 변환
         try {
-            return extractExRate(response);
+            return exRateExtractor.extract(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static BigDecimal extractExRate(String response) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        ExRateData data = mapper.readValue(response, ExRateData.class);
-        System.out.println("API ExRate: " + data.rates().get("KRW"));
-
-        return data.rates().get("KRW");
     }
 
 }
