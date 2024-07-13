@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.lang.NonNull;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
@@ -27,7 +26,7 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("prepare 메소드가 요구사항 3가지를 잘 충족했는지 검증")
-    void convertedAmount() throws IOException {
+    void convertedAmount() {
 
         testAmount(valueOf(500), valueOf(5_000), this.clock);
         testAmount(valueOf(1_000), valueOf(10_000), this.clock);
@@ -36,7 +35,7 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("원화환산금액의 유효시간 계산")
-    void validUntil() throws IOException {
+    void validUntil() {
 
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(valueOf(1_000)), clock);
         Payment payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
@@ -49,7 +48,7 @@ class PaymentServiceTest {
     }
 
     @NonNull
-    private static void testAmount(BigDecimal exRate, BigDecimal convertedAmount, Clock clock) throws IOException {
+    private static void testAmount(BigDecimal exRate, BigDecimal convertedAmount, Clock clock) {
 
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate), clock);
         Payment payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
