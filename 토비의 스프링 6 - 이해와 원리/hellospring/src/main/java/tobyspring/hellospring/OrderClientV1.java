@@ -1,7 +1,5 @@
 package tobyspring.hellospring;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,7 +12,7 @@ import tobyspring.hellospring.order.Order;
 
 import java.math.BigDecimal;
 
-public class DataClient {
+public class OrderClientV1 {
 
     public static void main(String[] args) {
 
