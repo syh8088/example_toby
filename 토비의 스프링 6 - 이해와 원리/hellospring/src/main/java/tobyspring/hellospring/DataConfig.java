@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -32,35 +33,38 @@ public class DataConfig {
      *
      */
     // entity manager factory
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//
+//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+//        em.setDataSource(this.dataSource());
+//
+//        /**
+//         * @Entity 로 생성된 객체를 자동으로 JPA 에서 데이터베이스에 맵핑 해주는 클래스라고 인식을 해줘야 하는데
+//         * 그러려면 이 클래스들이 어느 패키지 밑에 존재하는가 이거를 알려주면 애가 자동으로 찾아준다.
+//         */
+//        em.setPackagesToScan("tobyspring.hellospring");
+//
+//        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter() {{ // 더블 브래킷 기법
+//            setDatabase(Database.H2);
+//            setGenerateDdl(true);
+//            setShowSql(true);
+//        }});
+//
+//        return em;
+//    }
+//
+//    @Bean
+//    public BeanPostProcessor persistenceAnnotationPostProcessor() {
+//        return new PersistenceAnnotationBeanPostProcessor();
+//    }
+
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(this.dataSource());
-
-        /**
-         * @Entity 로 생성된 객체를 자동으로 JPA 에서 데이터베이스에 맵핑 해주는 클래스라고 인식을 해줘야 하는데
-         * 그러려면 이 클래스들이 어느 패키지 밑에 존재하는가 이거를 알려주면 애가 자동으로 찾아준다.
-         */
-        em.setPackagesToScan("tobyspring.hellospring");
-
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter() {{ // 더블 브래킷 기법
-            setDatabase(Database.H2);
-            setGenerateDdl(true);
-            setShowSql(true);
-        }});
-
-        return em;
-    }
-
-    @Bean
-    public BeanPostProcessor persistenceAnnotationPostProcessor() {
-        return new PersistenceAnnotationBeanPostProcessor();
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        return new JpaTransactionManager(emf);
+    public PlatformTransactionManager transactionManager(
+//            EntityManagerFactory emf
+    ) {
+//        return new JpaTransactionManager(emf);
+        return new DataSourceTransactionManager(this.dataSource());
     }
 
 }
