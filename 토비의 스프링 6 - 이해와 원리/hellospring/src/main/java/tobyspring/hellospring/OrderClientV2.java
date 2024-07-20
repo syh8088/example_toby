@@ -14,7 +14,7 @@ public class OrderClientV2 {
 
         BeanFactory beanFactory = new AnnotationConfigApplicationContext(OrderConfig.class);
         OrderService orderService = beanFactory.getBean(OrderService.class);
-        JpaTransactionManager transactionManager = beanFactory.getBean(JpaTransactionManager.class);
+//        JpaTransactionManager transactionManager = beanFactory.getBean(JpaTransactionManager.class);
 
         Order order = orderService.createOrder("0100", BigDecimal.TEN);
         System.out.println(order);
