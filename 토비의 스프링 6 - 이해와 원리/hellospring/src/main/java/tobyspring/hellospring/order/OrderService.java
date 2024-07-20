@@ -5,6 +5,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -24,6 +25,15 @@ public class OrderService {
         return new TransactionTemplate(transactionManager).execute(status -> {
             this.orderRepository.save(order);
             return order;
+        });
+    }
+
+    public List<Order> createOrders(List<OrderReq> reqs) {
+
+        return new TransactionTemplate(transactionManager).execute(status -> {
+            return reqs.stream()
+                    .map(req -> createOrder(req.no(), req.total()))
+                    .toList();
         });
     }
 }
