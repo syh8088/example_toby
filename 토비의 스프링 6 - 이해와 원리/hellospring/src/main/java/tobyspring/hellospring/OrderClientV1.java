@@ -7,7 +7,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
-import tobyspring.hellospring.data.OrderRepository;
+import tobyspring.hellospring.data.JpaOrderRepository;
 import tobyspring.hellospring.order.Order;
 
 import java.math.BigDecimal;
@@ -17,7 +17,7 @@ public class OrderClientV1 {
     public static void main(String[] args) {
 
         BeanFactory beanFactory = new AnnotationConfigApplicationContext(DataConfig.class);
-        OrderRepository repository = beanFactory.getBean(OrderRepository.class);
+        JpaOrderRepository repository = beanFactory.getBean(JpaOrderRepository.class);
         JpaTransactionManager transactionManager = beanFactory.getBean(JpaTransactionManager.class);
 
         try {
