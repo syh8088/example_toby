@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  # Infra services
+  mysql-server:
+    image: mysql
+    volumes:
+      - C:\Users\syh80\workspace\docker-volume\mysql_docker\mysql-container:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+    ports:
+      - "3306:3306"
